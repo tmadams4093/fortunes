@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shakespeare's Fortunes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--snake-green:#1d5a2c;--text:#fff;--box-bg:#15421a}
+    html,body{height:100%;margin:0}
+    body{background:var(--snake-green);color:var(--text);font-family:'Playfair Display',serif;display:flex;align-items:center;justify-content:center}
+    .container{text-align:center;padding:3rem}
+    .info-box{position:fixed;left:18px;top:50%;transform:translateY(-50%);width:260px;background:var(--box-bg);color:var(--text);padding:1rem 1.25rem;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.35);font-size:0.95rem;line-height:1.35}
+    .info-box h2{margin:0 0 0.5rem;font-size:1.1rem}
+    .title{margin:0 0 1rem;line-height:0.8}
+    .title.fixed-top{position:fixed;top:28px;left:50%;transform:translateX(-50%);margin:0;z-index:12}
+    .title .cursive{display:block;font-family:'Great Vibes',cursive;font-size:5rem}
+    .title .normal{display:block;font-size:2rem;letter-spacing:0.06em}
+    .text-button{appearance:none;border:0;background:transparent;color:rgba(255,255,255,0.95);font-size:1.25rem;cursor:pointer;padding:0;padding-bottom:0.25rem;text-decoration:underline}
+    #action-area{display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .text-button:focus{outline:2px solid rgba(255,255,255,0.2);outline-offset:4px}
+    #fortune-text{font-size:1.25rem;margin-top:0.5rem;max-width:52ch;margin-left:auto;margin-right:auto;word-break:break-word;overflow-wrap:anywhere;white-space:normal;text-align:center}
+    .small-button{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:transparent;border:0;color:rgba(255,255,255,0.9);font-size:0.9rem;cursor:pointer;text-decoration:underline}
+    .small-button:focus{outline:2px solid rgba(255,255,255,0.2);outline-offset:4px}
+    @media (max-width:480px){.title .cursive{font-size:3rem}.title .normal{font-size:1.25rem}}
+    @media (max-width:680px){.info-box{display:none}}
+    .top-info-toggle{position:fixed;right:18px;top:18px;width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.04);border:0;color:var(--text);font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:20}
+    .top-info{position:fixed;right:18px;top:64px;width:260px;background:var(--box-bg);color:var(--text);padding:0.75rem;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.28);z-index:19}
+    .top-info[hidden]{display:none}
+  </style>
+</head>
+</style>
+<style>
+
+a:link {
+  color: rgb(41, 124, 51);
+}
+
+
+a:visited {
+  color: rgba(41, 124, 51, 0.726);
+}
+
+
+a:hover {
+  color: rgb(41, 124, 92);
+}
+
+
+a:active {
+  color: rgb(41, 124, 92);
+}
+</style>
+
+<body>
+  <aside id="info-box" class="info-box" role="note" aria-label="Information">
+    <h2>Explanation</h2>
+    <p>Shakespeare loves using dramatic irony in his plays, and Othello is no exception. There are many instances of this throughout the play. All of Iago's soliloquies are an example of this, as the audience knows his schemes while the characters do not.</p>
+    <p>Desdemona singing the willow song is another moment of dramatic irony. She's foreshadowing her own death, and since it is a tragedy, the audience knows that she will die.</p>
+    <p>This fortune teller attraction showcases the dramatic irony throughout the play, with fortunes relating to the character's fate.</p>
+    </p>To see all of the fortunes and the explanation of each fortune, click the ? symbol in the top right corner.</p>
+  </aside>
+  <button id="top-info-toggle" class="top-info-toggle" aria-controls="top-info" aria-expanded="false">?</button>
+  <div id="top-info" class="top-info" hidden role="region" aria-label="More information">
+    <a href="https://docs.google.com/document/d/1B7U8VrMLQ8BvxAOhxwe-swWi_0QvynfcF1lWRREuQOs/edit?usp=sharing">Google Doc With Explanations</a>
+  </div>
+  <div class="container">
+    <h1 class="title fixed-top"><span class="cursive">Shakespeare's</span><span class="normal">Fortunes</span></h1>
+    <div id="action-area">
+      <button id="get-fortune" class="text-button">Get a fortune</button>
+    </div>
+  </div>
+  <button id="new-fortune" class="small-button" hidden>Get new fortune</button>
+  <script>
+    (function(){
+      const fortunes = [
+        "Your place of rest will soon become your place of rest. (Desdemona)",
+        "Your loyalty will be used to prove a crime you are innocent of. (Desdemona)",
+        "A promotion today will lead to a demotion tonight. (Cassio)",
+        "The man who heals your wounds may be the one who sharpened the blade. (Cassio)",
+        "Your pockets will grow light as your friend's influence grows heavy. (Roderigo)",
+        "Selling your land to buy love will leave you with neither life nor heart. (Roderigo)",
+        "A handkerchief found in the wrong hands will lead you to take the law into your own. (Othello)",
+        "Do not trust a man who claims he is honest, for he may just be a better liar. (Othello)",
+        "The truth will set you free, but only for a few seconds. (Emilia)",
+        "A favor for a loved one can become a death sentence for a friend. (Emilia)",
+        "You will soon achieve everything you want, but it will cost you everything you have. (Iago)",
+        "The web you spin to trap others may soon entangle you. (Iago)"
+      ];
+      function pick(){return fortunes[Math.floor(Math.random()*fortunes.length)]}
+      const getBtn = document.getElementById('get-fortune');
+      const action = document.getElementById('action-area');
+      const newBtn = document.getElementById('new-fortune');
+      const topToggle = document.getElementById('top-info-toggle');
+      const topInfo = document.getElementById('top-info');
+      function showFortune(text){
+        action.innerHTML = '<p id="fortune-text">'+text+'</p>';
+        newBtn.hidden = false;
+      }
+      getBtn.addEventListener('click',()=>{
+        showFortune(pick());
+      });
+      newBtn.addEventListener('click',()=>{
+        const f = pick();
+        const p = document.getElementById('fortune-text');
+        if(p){p.textContent = f} else {showFortune(f)};
+      });
+
+      if(topToggle && topInfo){
+        topToggle.addEventListener('click', ()=>{
+          const isOpen = !topInfo.hidden;
+          topInfo.hidden = isOpen;
+          topToggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
